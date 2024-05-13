@@ -1,4 +1,4 @@
 ﻿  Source.cpp
-C:\Users\User\Desktop\projects_c++\LESSONS_OOP_C++\lesson_10_05_2024\Source.cpp(26,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\User\Desktop\projects_c++\LESSONS_OOP_C++\lesson_10_05_2024\Source.cpp(162,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\User\Desktop\projects_c++\LESSONS_OOP_C++\lesson_10_05_2024\Source.cpp(48,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\User\Desktop\projects_c++\LESSONS_OOP_C++\lesson_10_05_2024\Source.cpp(192,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   lesson_10_05_2024.vcxproj -> C:\Users\User\Desktop\projects_c++\LESSONS_OOP_C++\x64\Debug\lesson_10_05_2024.exe

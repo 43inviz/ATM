@@ -13,6 +13,28 @@ void menu() {
 	cout << "Enter choice: ";
 }
 
+class ArgumentException :public exception {
+
+	string _mess;
+public:
+	ArgumentException(string mess) :_mess(mess) {}
+
+	const string what() {
+		return _mess;
+	}
+};
+
+class InsufficientFundsException:public exception {
+	string _mess;
+public:
+	InsufficientFundsException(string mess) :_mess(mess) {}
+
+	const string what() {
+		return _mess;
+	}
+
+};
+
 class BankAccount {
 	string _userName;
 	int _balance;
@@ -85,21 +107,25 @@ public:
 
 
 	void inputDepos() {
+	
 		int newDep;
 		cout << "Enter sum: ";
 		cin >> newDep;
 
-		if (_creditBalance != _creditSum) {
-			int difSum = creditInputIfNeed(_creditBalance);
-			setBal(newDep - difSum);
-			_creditBalance += difSum;
+		if(newDep>=0){
+			if (_creditBalance != _creditSum) {
+				int difSum = creditInputIfNeed(_creditBalance);
+				setBal(newDep - difSum);
+				_creditBalance += difSum;
+			}
+			else {
+				int newBal = _balance + newDep;
+				setBal(newBal);
+			}
 		}
 		else {
-			int newBal = _balance + newDep;
-			setBal(newBal);
+			throw ArgumentException("You try input negative numbers");
 		}
-
-		
 		
 	}
 
@@ -112,21 +138,28 @@ public:
 		cout << "Enter remove sum: ";
 		cin >> removeSum;
 
-		if(isEnough(removeSum)) {
-			int newBal = _balance - removeSum;
-			setBal(newBal);
-		}
-		else {
-			int removeDiff = creditDifference(removeSum);
-			bool choice = useCredit();
-			if (choice == true) {
-				_creditBalance -= removeDiff;
-				setBal(0);
+		if (removeSum >= 0) {
+			if (isEnough(removeSum)) {
+				int newBal = _balance - removeSum;
+				setBal(newBal);
 			}
 			else {
-				cout << "Not enough money" << endl;
+				int removeDiff = creditDifference(removeSum);
+				bool choice = useCredit();
+				if (choice == true) {
+					_creditBalance -= removeDiff;
+					setBal(0);
+				}
+				else {
+					cout << "Not enough money" << endl;
+				}
 			}
 		}
+		else {
+			InsufficientFundsException("You try draw negative num");
+		}
+
+		
 	}
 
 	void showBankAccInfo() const {
@@ -149,11 +182,21 @@ public:
 	}
 
 	void widthDrawMoney(BankAccount& acc) {
-		acc.withDraw();
+		try {
+			acc.withDraw();
+		}
+		catch (InsufficientFundsException& ex) {
+			cout << ex.what() << endl;
+		}
 	}
 
 	void inputMoney(BankAccount& acc) {
-		acc.inputDepos();
+		try {
+			acc.inputDepos();
+		}
+		catch(ArgumentException& ex){
+			cout << ex.what() << endl;
+		}
 	}
 
 };
@@ -175,9 +218,9 @@ int main() {
 
 		switch (choice)
 		{
-		case 1:
+		case 1:	
 			atm.inputMoney(banckAcc);
-			break;
+			break;	
 		case 2:
 			atm.widthDrawMoney(banckAcc);
 			break;
